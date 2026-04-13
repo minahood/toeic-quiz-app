@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOEIC 英単語クイズ</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- スタート画面 -->
+  <div id="screen-start" class="screen active">
+    <div class="card start-card">
+      <div class="logo">📝</div>
+      <h1>TOEIC 英単語クイズ</h1>
+      <p>TOEICに頻出する英単語を<br>4択クイズで学習しましょう</p>
+      <button id="btn-start" class="btn btn-primary">スタート</button>
+    </div>
+  </div>
+
+  <!-- 難易度選択画面 -->
+  <div id="screen-difficulty" class="screen">
+    <div class="difficulty-wrapper">
+      <h2>難易度を選んでください</h2>
+      <div class="difficulty-cards">
+        <div class="difficulty-card easy" data-difficulty="easy">
+          <div class="card-icon">🌱</div>
+          <div class="card-level">易しい</div>
+          <div class="card-level-en">Easy</div>
+          <div class="card-desc">基本的なTOEIC単語<br>全50問</div>
+        </div>
+        <div class="difficulty-card normal" data-difficulty="normal">
+          <div class="card-icon">📘</div>
+          <div class="card-level">普通</div>
+          <div class="card-level-en">Normal</div>
+          <div class="card-desc">中級のTOEIC単語<br>全50問</div>
+        </div>
+        <div class="difficulty-card hard" data-difficulty="hard">
+          <div class="card-icon">🔥</div>
+          <div class="card-level">難しい</div>
+          <div class="card-level-en">Hard</div>
+          <div class="card-desc">上級のTOEIC単語<br>全50問</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- クイズ画面 -->
+  <div id="screen-quiz" class="screen">
+    <div class="quiz-container">
+      <div class="quiz-header">
+        <div class="quiz-meta">
+          <span id="quiz-counter">問題 1 / 50</span>
+          <span id="quiz-difficulty-badge" class="difficulty-badge easy">易しい</span>
+          <span id="quiz-score">スコア: 0</span>
+        </div>
+        <div class="progress-bar">
+          <div id="progress-fill" class="progress-fill"></div>
+        </div>
+      </div>
+      <div class="quiz-word-area">
+        <div id="quiz-word" class="quiz-word"></div>
+        <div class="quiz-instruction">正しい日本語訳を選んでください</div>
+      </div>
+      <div id="quiz-choices" class="quiz-choices"></div>
+    </div>
+  </div>
+
+  <!-- 結果画面 -->
+  <div id="screen-result" class="screen result-screen">
+    <div class="result-container">
+      <h2>クイズ結果</h2>
+      <span id="result-difficulty" class="difficulty-badge easy">易しい</span>
+      <div class="result-score-area">
+        <div id="result-score" class="result-score">0 / 50</div>
+        <div id="result-percent" class="result-percent">0%</div>
+      </div>
+      <div id="result-message" class="result-message"></div>
+      <div class="result-buttons">
+        <button id="btn-retry" class="btn btn-primary">もう一度</button>
+        <button id="btn-change-difficulty" class="btn btn-secondary">難易度を変える</button>
+      </div>
+      <div class="review-section">
+        <h3>復習一覧</h3>
+        <div class="review-table-wrapper">
+          <table class="review-table">
+            <thead>
+              <tr>
+                <th>単語</th>
+                <th>あなたの回答</th>
+                <th>正解</th>
+                <th>結果</th>
+              </tr>
+            </thead>
+            <tbody id="result-review-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

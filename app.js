@@ -1,0 +1,346 @@
+const WORDS = [
+  // ===================== 易しい (Easy) 50語 =====================
+  { word: "able",     meaning: "できる",         difficulty: "easy" },
+  { word: "agree",    meaning: "同意する",       difficulty: "easy" },
+  { word: "allow",    meaning: "許可する",       difficulty: "easy" },
+  { word: "apply",    meaning: "申し込む",       difficulty: "easy" },
+  { word: "bring",    meaning: "持ってくる",     difficulty: "easy" },
+  { word: "build",    meaning: "構築する",       difficulty: "easy" },
+  { word: "call",     meaning: "電話する",       difficulty: "easy" },
+  { word: "carry",    meaning: "運ぶ",           difficulty: "easy" },
+  { word: "change",   meaning: "変更する",       difficulty: "easy" },
+  { word: "check",    meaning: "確認する",       difficulty: "easy" },
+  { word: "choose",   meaning: "選ぶ",           difficulty: "easy" },
+  { word: "close",    meaning: "閉める",         difficulty: "easy" },
+  { word: "copy",     meaning: "コピーする",     difficulty: "easy" },
+  { word: "cost",     meaning: "費用がかかる",   difficulty: "easy" },
+  { word: "cover",    meaning: "カバーする",     difficulty: "easy" },
+  { word: "create",   meaning: "作成する",       difficulty: "easy" },
+  { word: "decide",   meaning: "決める",         difficulty: "easy" },
+  { word: "deliver",  meaning: "届ける",         difficulty: "easy" },
+  { word: "direct",   meaning: "指示する",       difficulty: "easy" },
+  { word: "discuss",  meaning: "話し合う",       difficulty: "easy" },
+  { word: "earn",     meaning: "稼ぐ",           difficulty: "easy" },
+  { word: "enter",    meaning: "入る",           difficulty: "easy" },
+  { word: "fill",     meaning: "記入する",       difficulty: "easy" },
+  { word: "find",     meaning: "見つける",       difficulty: "easy" },
+  { word: "finish",   meaning: "終える",         difficulty: "easy" },
+  { word: "follow",   meaning: "従う",           difficulty: "easy" },
+  { word: "give",     meaning: "与える",         difficulty: "easy" },
+  { word: "grow",     meaning: "成長する",       difficulty: "easy" },
+  { word: "handle",   meaning: "扱う",           difficulty: "easy" },
+  { word: "help",     meaning: "助ける",         difficulty: "easy" },
+  { word: "hire",     meaning: "雇う",           difficulty: "easy" },
+  { word: "hold",     meaning: "開催する",       difficulty: "easy" },
+  { word: "include",  meaning: "含む",           difficulty: "easy" },
+  { word: "increase", meaning: "増加する",       difficulty: "easy" },
+  { word: "join",     meaning: "参加する",       difficulty: "easy" },
+  { word: "keep",     meaning: "保つ",           difficulty: "easy" },
+  { word: "lead",     meaning: "率いる",         difficulty: "easy" },
+  { word: "leave",    meaning: "離れる",         difficulty: "easy" },
+  { word: "listen",   meaning: "聞く",           difficulty: "easy" },
+  { word: "make",     meaning: "作る",           difficulty: "easy" },
+  { word: "manage",   meaning: "管理する",       difficulty: "easy" },
+  { word: "meet",     meaning: "会う",           difficulty: "easy" },
+  { word: "mention",  meaning: "言及する",       difficulty: "easy" },
+  { word: "move",     meaning: "移動する",       difficulty: "easy" },
+  { word: "open",     meaning: "開ける",         difficulty: "easy" },
+  { word: "order",    meaning: "注文する",       difficulty: "easy" },
+  { word: "pay",      meaning: "支払う",         difficulty: "easy" },
+  { word: "plan",     meaning: "計画する",       difficulty: "easy" },
+  { word: "send",     meaning: "送る",           difficulty: "easy" },
+  { word: "show",     meaning: "示す",           difficulty: "easy" },
+
+  // ===================== 普通 (Normal) 50語 =====================
+  { word: "acquire",     meaning: "獲得する",   difficulty: "normal" },
+  { word: "allocate",    meaning: "割り当てる", difficulty: "normal" },
+  { word: "anticipate",  meaning: "予期する",   difficulty: "normal" },
+  { word: "authorize",   meaning: "承認する",   difficulty: "normal" },
+  { word: "collaborate", meaning: "協力する",   difficulty: "normal" },
+  { word: "compensate",  meaning: "補償する",   difficulty: "normal" },
+  { word: "facilitate",  meaning: "促進する",   difficulty: "normal" },
+  { word: "negotiate",   meaning: "交渉する",   difficulty: "normal" },
+  { word: "accompany",   meaning: "同行する",   difficulty: "normal" },
+  { word: "acknowledge", meaning: "認める",     difficulty: "normal" },
+  { word: "announce",    meaning: "発表する",   difficulty: "normal" },
+  { word: "appreciate",  meaning: "感謝する",   difficulty: "normal" },
+  { word: "assess",      meaning: "査定する",   difficulty: "normal" },
+  { word: "assign",      meaning: "任命する",   difficulty: "normal" },
+  { word: "attend",      meaning: "出席する",   difficulty: "normal" },
+  { word: "cancel",      meaning: "取り消す",   difficulty: "normal" },
+  { word: "clarify",     meaning: "明確にする", difficulty: "normal" },
+  { word: "compete",     meaning: "競争する",   difficulty: "normal" },
+  { word: "complete",    meaning: "完了する",   difficulty: "normal" },
+  { word: "confirm",     meaning: "確定する",   difficulty: "normal" },
+  { word: "consider",    meaning: "検討する",   difficulty: "normal" },
+  { word: "consult",     meaning: "相談する",   difficulty: "normal" },
+  { word: "contribute",  meaning: "貢献する",   difficulty: "normal" },
+  { word: "convince",    meaning: "説得する",   difficulty: "normal" },
+  { word: "coordinate",  meaning: "調整する",   difficulty: "normal" },
+  { word: "decline",     meaning: "断る",       difficulty: "normal" },
+  { word: "demonstrate", meaning: "実演する",   difficulty: "normal" },
+  { word: "develop",     meaning: "開発する",   difficulty: "normal" },
+  { word: "distribute",  meaning: "配布する",   difficulty: "normal" },
+  { word: "evaluate",    meaning: "評価する",   difficulty: "normal" },
+  { word: "examine",     meaning: "調べる",     difficulty: "normal" },
+  { word: "expand",      meaning: "拡大する",   difficulty: "normal" },
+  { word: "extend",      meaning: "延長する",   difficulty: "normal" },
+  { word: "generate",    meaning: "生み出す",   difficulty: "normal" },
+  { word: "implement",   meaning: "実施する",   difficulty: "normal" },
+  { word: "improve",     meaning: "改善する",   difficulty: "normal" },
+  { word: "indicate",    meaning: "指摘する",   difficulty: "normal" },
+  { word: "introduce",   meaning: "紹介する",   difficulty: "normal" },
+  { word: "involve",     meaning: "関与する",   difficulty: "normal" },
+  { word: "maintain",    meaning: "維持する",   difficulty: "normal" },
+  { word: "measure",     meaning: "測定する",   difficulty: "normal" },
+  { word: "modify",      meaning: "修正する",   difficulty: "normal" },
+  { word: "obtain",      meaning: "取得する",   difficulty: "normal" },
+  { word: "organize",    meaning: "整理する",   difficulty: "normal" },
+  { word: "promote",     meaning: "昇進させる", difficulty: "normal" },
+  { word: "propose",     meaning: "提案する",   difficulty: "normal" },
+  { word: "provide",     meaning: "提供する",   difficulty: "normal" },
+  { word: "reduce",      meaning: "削減する",   difficulty: "normal" },
+  { word: "require",     meaning: "必要とする", difficulty: "normal" },
+  { word: "schedule",    meaning: "予定する",   difficulty: "normal" },
+
+  // ===================== 難しい (Hard) 50語 =====================
+  { word: "circumvent",   meaning: "回避する",       difficulty: "hard" },
+  { word: "ameliorate",   meaning: "改良する",       difficulty: "hard" },
+  { word: "preclude",     meaning: "妨げる",         difficulty: "hard" },
+  { word: "contingent",   meaning: "条件付きの",     difficulty: "hard" },
+  { word: "remunerate",   meaning: "報酬を支払う",   difficulty: "hard" },
+  { word: "exacerbate",   meaning: "悪化させる",     difficulty: "hard" },
+  { word: "promulgate",   meaning: "公布する",       difficulty: "hard" },
+  { word: "fiduciary",    meaning: "受託者の",       difficulty: "hard" },
+  { word: "indemnify",    meaning: "賠償する",       difficulty: "hard" },
+  { word: "corroborate",  meaning: "裏付ける",       difficulty: "hard" },
+  { word: "accrue",       meaning: "生じる",         difficulty: "hard" },
+  { word: "adhere",       meaning: "固執する",       difficulty: "hard" },
+  { word: "adjudicate",   meaning: "裁定する",       difficulty: "hard" },
+  { word: "amend",        meaning: "改正する",       difficulty: "hard" },
+  { word: "arbitrate",    meaning: "仲裁する",       difficulty: "hard" },
+  { word: "articulate",   meaning: "明瞭に表現する", difficulty: "hard" },
+  { word: "ascertain",    meaning: "突き止める",     difficulty: "hard" },
+  { word: "augment",      meaning: "増大する",       difficulty: "hard" },
+  { word: "capitalize",   meaning: "活用する",       difficulty: "hard" },
+  { word: "coerce",       meaning: "強制する",       difficulty: "hard" },
+  { word: "commence",     meaning: "開始する",       difficulty: "hard" },
+  { word: "comply",       meaning: "遵守する",       difficulty: "hard" },
+  { word: "concede",      meaning: "譲歩する",       difficulty: "hard" },
+  { word: "consolidate",  meaning: "統合する",       difficulty: "hard" },
+  { word: "constitute",   meaning: "構成する",       difficulty: "hard" },
+  { word: "contend",      meaning: "主張する",       difficulty: "hard" },
+  { word: "deter",        meaning: "阻止する",       difficulty: "hard" },
+  { word: "deviate",      meaning: "逸脱する",       difficulty: "hard" },
+  { word: "disclose",     meaning: "開示する",       difficulty: "hard" },
+  { word: "disseminate",  meaning: "普及させる",     difficulty: "hard" },
+  { word: "distinguish",  meaning: "区別する",       difficulty: "hard" },
+  { word: "enact",        meaning: "制定する",       difficulty: "hard" },
+  { word: "enumerate",    meaning: "列挙する",       difficulty: "hard" },
+  { word: "equitable",    meaning: "公平な",         difficulty: "hard" },
+  { word: "escalate",     meaning: "エスカレートする", difficulty: "hard" },
+  { word: "forfeit",      meaning: "没収する",       difficulty: "hard" },
+  { word: "imperative",   meaning: "不可欠な",       difficulty: "hard" },
+  { word: "inception",    meaning: "開始時点",       difficulty: "hard" },
+  { word: "incumbent",    meaning: "現職の",         difficulty: "hard" },
+  { word: "inherent",     meaning: "固有の",         difficulty: "hard" },
+  { word: "liquidate",    meaning: "清算する",       difficulty: "hard" },
+  { word: "mandate",      meaning: "義務付ける",     difficulty: "hard" },
+  { word: "mitigate",     meaning: "軽減する",       difficulty: "hard" },
+  { word: "perpetuate",   meaning: "永続させる",     difficulty: "hard" },
+  { word: "procurement",  meaning: "調達",           difficulty: "hard" },
+  { word: "reimbursement",meaning: "払い戻し",       difficulty: "hard" },
+  { word: "scrutinize",   meaning: "精査する",       difficulty: "hard" },
+  { word: "substantiate", meaning: "実証する",       difficulty: "hard" },
+  { word: "supersede",    meaning: "取って代わる",   difficulty: "hard" },
+  { word: "waive",        meaning: "放棄する",       difficulty: "hard" },
+];
+
+// ---- State ----
+const state = {
+  difficulty: null,
+  questions: [],
+  currentIndex: 0,
+  score: 0,
+  answers: [],
+  isAnswered: false,
+};
+
+// ---- Utilities ----
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function getWrongChoices(correctMeaning, count = 3) {
+  const candidates = shuffle(WORDS.filter(w => w.meaning !== correctMeaning));
+  const chosen = [];
+  const used = new Set();
+  for (const w of candidates) {
+    if (!used.has(w.meaning)) {
+      chosen.push(w.meaning);
+      used.add(w.meaning);
+      if (chosen.length === count) break;
+    }
+  }
+  return chosen;
+}
+
+function getDifficultyLabel(diff) {
+  return { easy: '易しい', normal: '普通', hard: '難しい' }[diff];
+}
+
+// ---- Screen control ----
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ---- Quiz builder ----
+function buildQuiz(difficulty) {
+  const pool = shuffle(WORDS.filter(w => w.difficulty === difficulty));
+  state.questions = pool.map(q => {
+    const wrong = getWrongChoices(q.meaning);
+    return {
+      word: q.word,
+      correct: q.meaning,
+      choices: shuffle([q.meaning, ...wrong]),
+    };
+  });
+  state.difficulty = difficulty;
+  state.currentIndex = 0;
+  state.score = 0;
+  state.answers = [];
+  state.isAnswered = false;
+}
+
+// ---- Render question ----
+function renderQuestion() {
+  const q = state.questions[state.currentIndex];
+  const total = state.questions.length;
+
+  document.getElementById('quiz-word').textContent = q.word;
+  document.getElementById('quiz-counter').textContent =
+    '問題 ' + (state.currentIndex + 1) + ' / ' + total;
+  document.getElementById('quiz-score').textContent = 'スコア: ' + state.score;
+  document.getElementById('progress-fill').style.width =
+    ((state.currentIndex / total) * 100) + '%';
+
+  const choicesEl = document.getElementById('quiz-choices');
+  choicesEl.innerHTML = '';
+  q.choices.forEach(choice => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = choice;
+    btn.addEventListener('click', () => handleAnswer(choice));
+    choicesEl.appendChild(btn);
+  });
+}
+
+// ---- Handle answer ----
+function handleAnswer(selected) {
+  if (state.isAnswered) return;
+  state.isAnswered = true;
+
+  const q = state.questions[state.currentIndex];
+  const isCorrect = selected === q.correct;
+  if (isCorrect) state.score++;
+
+  state.answers.push({ word: q.word, correct: q.correct, selected, isCorrect });
+
+  document.querySelectorAll('.choice-btn').forEach(btn => {
+    btn.disabled = true;
+    if (btn.textContent === q.correct) btn.classList.add('correct');
+    else if (btn.textContent === selected && !isCorrect) btn.classList.add('wrong');
+  });
+
+  setTimeout(() => {
+    state.currentIndex++;
+    state.isAnswered = false;
+    if (state.currentIndex < state.questions.length) {
+      renderQuestion();
+    } else {
+      renderResult();
+      showScreen('result');
+    }
+  }, 800);
+}
+
+// ---- Render result ----
+function renderResult() {
+  const total = state.questions.length;
+  const pct = Math.round((state.score / total) * 100);
+
+  document.getElementById('result-score').textContent = state.score + ' / ' + total;
+  document.getElementById('result-percent').textContent = pct + '%';
+
+  let msg;
+  if (state.score <= 24)      msg = 'もう少し頑張りましょう！';
+  else if (state.score <= 34) msg = 'よくできました！';
+  else if (state.score <= 44) msg = '素晴らしい！';
+  else                         msg = '完璧です！🎉';
+
+  document.getElementById('result-message').textContent = msg;
+
+  const badge = document.getElementById('result-difficulty');
+  badge.textContent = getDifficultyLabel(state.difficulty);
+  badge.className = 'difficulty-badge ' + state.difficulty;
+
+  const tbody = document.getElementById('result-review-body');
+  tbody.innerHTML = '';
+  state.answers.forEach(a => {
+    const tr = document.createElement('tr');
+    const selectedCell = a.isCorrect
+      ? '<td>' + a.selected + '</td>'
+      : '<td class="wrong-answer">' + a.selected + '</td>';
+    const resultCell = a.isCorrect
+      ? '<td class="correct-icon">○</td>'
+      : '<td class="wrong-icon">×</td>';
+    tr.innerHTML =
+      '<td>' + a.word + '</td>' +
+      selectedCell +
+      '<td>' + a.correct + '</td>' +
+      resultCell;
+    tbody.appendChild(tr);
+  });
+}
+
+// ---- Start difficulty badge update ----
+function setQuizBadge(diff) {
+  const badge = document.getElementById('quiz-difficulty-badge');
+  badge.textContent = getDifficultyLabel(diff);
+  badge.className = 'difficulty-badge ' + diff;
+}
+
+// ---- Event listeners ----
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('btn-start').addEventListener('click', () => {
+    showScreen('difficulty');
+  });
+
+  document.querySelectorAll('.difficulty-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const diff = card.dataset.difficulty;
+      buildQuiz(diff);
+      setQuizBadge(diff);
+      showScreen('quiz');
+      renderQuestion();
+    });
+  });
+
+  document.getElementById('btn-retry').addEventListener('click', () => {
+    buildQuiz(state.difficulty);
+    setQuizBadge(state.difficulty);
+    showScreen('quiz');
+    renderQuestion();
+  });
+
+  document.getElementById('btn-change-difficulty').addEventListener('click', () => {
+    showScreen('difficulty');
+  });
+});
