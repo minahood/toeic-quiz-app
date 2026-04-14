@@ -245,14 +245,48 @@ body {
   background: #fff;
   border: 2px solid #e2e8f0;
   border-radius: 12px;
-  padding: 20px 16px;
+  padding: 18px 16px;
   font-size: 1rem;
   color: #2d3748;
   cursor: pointer;
   transition: border-color 0.15s, background 0.15s, transform 0.1s;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.choice-meaning {
+  font-size: 1rem;
+  font-weight: 600;
   line-height: 1.4;
-  word-break: break-all;
+}
+
+.choice-english {
+  font-size: 0.78rem;
+  color: #a0aec0;
+  font-style: italic;
+  min-height: 1em;
+}
+
+.choice-btn.correct .choice-english {
+  color: #276749;
+}
+
+.choice-btn.wrong .choice-english {
+  color: #9b2c2c;
+}
+
+/* 次へボタンエリア */
+.quiz-next-area {
+  display: none;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+#btn-next {
+  min-width: 160px;
 }
 
 .choice-btn:hover:not(:disabled) {

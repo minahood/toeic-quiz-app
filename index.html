@@ -27,19 +27,19 @@
           <div class="card-icon">🌱</div>
           <div class="card-level">易しい</div>
           <div class="card-level-en">Easy</div>
-          <div class="card-desc">基本的なTOEIC単語<br>全50問</div>
+          <div class="card-desc">基本的なTOEIC単語<br>全50問より10問出題</div>
         </div>
         <div class="difficulty-card normal" data-difficulty="normal">
           <div class="card-icon">📘</div>
           <div class="card-level">普通</div>
           <div class="card-level-en">Normal</div>
-          <div class="card-desc">中級のTOEIC単語<br>全50問</div>
+          <div class="card-desc">中級のTOEIC単語<br>全50問より10問出題</div>
         </div>
         <div class="difficulty-card hard" data-difficulty="hard">
           <div class="card-icon">🔥</div>
           <div class="card-level">難しい</div>
           <div class="card-level-en">Hard</div>
-          <div class="card-desc">上級のTOEIC単語<br>全50問</div>
+          <div class="card-desc">上級のTOEIC単語<br>全50問より10問出題</div>
         </div>
       </div>
     </div>
@@ -50,7 +50,7 @@
     <div class="quiz-container">
       <div class="quiz-header">
         <div class="quiz-meta">
-          <span id="quiz-counter">問題 1 / 50</span>
+          <span id="quiz-counter">問題 1 / 10</span>
           <span id="quiz-difficulty-badge" class="difficulty-badge easy">易しい</span>
           <span id="quiz-score">スコア: 0</span>
         </div>
@@ -63,6 +63,9 @@
         <div class="quiz-instruction">正しい日本語訳を選んでください</div>
       </div>
       <div id="quiz-choices" class="quiz-choices"></div>
+      <div id="quiz-next-area" class="quiz-next-area">
+        <button id="btn-next" class="btn btn-primary">次へ</button>
+      </div>
     </div>
   </div>
 
@@ -72,7 +75,7 @@
       <h2>クイズ結果</h2>
       <span id="result-difficulty" class="difficulty-badge easy">易しい</span>
       <div class="result-score-area">
-        <div id="result-score" class="result-score">0 / 50</div>
+        <div id="result-score" class="result-score">0 / 10</div>
         <div id="result-percent" class="result-percent">0%</div>
       </div>
       <div id="result-message" class="result-message"></div>
