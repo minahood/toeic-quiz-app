@@ -204,13 +204,14 @@ function showScreen(name) {
 // ---- Quiz builder ----
 function buildQuiz(difficulty) {
   const pool = shuffle(WORDS.filter(w => w.difficulty === difficulty));
-  state.questions = pool.map(q => {
-    const wrong = getWrongChoices(q.meaning);
-    return {
-      word: q.word,
-      correct: q.meaning,
-      choices: shuffle([q.meaning, ...wrong]),
-    };
+  state.questions = pool.slice(0, 10).map(q => {
+    const wrongMeanings = getWrongChoices(q.meaning);
+    const allMeanings = shuffle([q.meaning, ...wrongMeanings]);
+    const choices = allMeanings.map(meaning => ({
+      meaning,
+      english: WORDS.filter(w => w.meaning === meaning).map(w => w.word).join(' / '),
+    }));
+    return { word: q.word, correct: q.meaning, choices };
   });
   state.difficulty = difficulty;
   state.currentIndex = 0;
@@ -231,15 +232,33 @@ function renderQuestion() {
   document.getElementById('progress-fill').style.width =
     ((state.currentIndex / total) * 100) + '%';
 
+  // 次へボタンを非表示
+  document.getElementById('quiz-next-area').style.display = 'none';
+
   const choicesEl = document.getElementById('quiz-choices');
   choicesEl.innerHTML = '';
   q.choices.forEach(choice => {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
-    btn.textContent = choice;
-    btn.addEventListener('click', () => handleAnswer(choice));
+    btn.dataset.meaning = choice.meaning;
+    btn.dataset.english = choice.english;
+
+    const meaningEl = document.createElement('span');
+    meaningEl.className = 'choice-meaning';
+    meaningEl.textContent = choice.meaning;
+
+    const englishEl = document.createElement('span');
+    englishEl.className = 'choice-english';
+
+    btn.appendChild(meaningEl);
+    btn.appendChild(englishEl);
+    btn.addEventListener('click', () => handleAnswer(choice.meaning));
     choicesEl.appendChild(btn);
   });
+
+  // ラストの問題は「結果を見る」に変更
+  const nextBtn = document.getElementById('btn-next');
+  nextBtn.textContent = (state.currentIndex === total - 1) ? '結果を見る' : '次へ';
 }
 
 // ---- Handle answer ----
@@ -253,22 +272,28 @@ function handleAnswer(selected) {
 
   state.answers.push({ word: q.word, correct: q.correct, selected, isCorrect });
 
+  // ボタンにハイライトと英単語を表示
   document.querySelectorAll('.choice-btn').forEach(btn => {
     btn.disabled = true;
-    if (btn.textContent === q.correct) btn.classList.add('correct');
-    else if (btn.textContent === selected && !isCorrect) btn.classList.add('wrong');
+    btn.querySelector('.choice-english').textContent = btn.dataset.english;
+    if (btn.dataset.meaning === q.correct) btn.classList.add('correct');
+    else if (btn.dataset.meaning === selected && !isCorrect) btn.classList.add('wrong');
   });
 
-  setTimeout(() => {
-    state.currentIndex++;
-    state.isAnswered = false;
-    if (state.currentIndex < state.questions.length) {
-      renderQuestion();
-    } else {
-      renderResult();
-      showScreen('result');
-    }
-  }, 800);
+  // 次へボタンを表示
+  document.getElementById('quiz-next-area').style.display = 'flex';
+}
+
+// ---- 次の問題へ / 結果画面 ----
+function goNext() {
+  state.currentIndex++;
+  state.isAnswered = false;
+  if (state.currentIndex < state.questions.length) {
+    renderQuestion();
+  } else {
+    renderResult();
+    showScreen('result');
+  }
 }
 
 // ---- Render result ----
@@ -280,10 +305,10 @@ function renderResult() {
   document.getElementById('result-percent').textContent = pct + '%';
 
   let msg;
-  if (state.score <= 24)      msg = 'もう少し頑張りましょう！';
-  else if (state.score <= 34) msg = 'よくできました！';
-  else if (state.score <= 44) msg = '素晴らしい！';
-  else                         msg = '完璧です！🎉';
+  if (state.score <= 3)      msg = 'もう少し頑張りましょう！';
+  else if (state.score <= 6) msg = 'よくできました！';
+  else if (state.score <= 8) msg = '素晴らしい！';
+  else                        msg = '完璧です！🎉';
 
   document.getElementById('result-message').textContent = msg;
 
@@ -332,6 +357,8 @@ document.addEventListener('DOMContentLoaded', () => {
       renderQuestion();
     });
   });
+
+  document.getElementById('btn-next').addEventListener('click', goNext);
 
   document.getElementById('btn-retry').addEventListener('click', () => {
     buildQuiz(state.difficulty);
