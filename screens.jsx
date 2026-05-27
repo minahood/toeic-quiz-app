@@ -4,7 +4,15 @@
 const DIFFICULTY_LABEL = { easy: '易しい', normal: '普通', hard: '難しい' };
 const DIFFICULTY_LABEL_EN = { easy: 'Easy', normal: 'Normal', hard: 'Hard' };
 
-// ── Utilities ────────────────────────────────────────────────────────
+// ── Utilities ──────────────────────────────────────────────────
+function speakEnglish(text) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'en-US';
+  utter.rate = 0.95;
+  window.speechSynthesis.speak(utter);
+}
 function shuffle(arr) {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -72,7 +80,7 @@ function buildQuestions(difficulty, count, onlyWords, direction = 'en-to-jp') {
   });
 }
 
-// ── Top Nav ───────────────────────────────────────────────────────────────────
+// ── Top Nav ─────────────────────────────────────────────────────
 function TopNav({ savedCount, historyCount, mistakesCount, onOpenSaved, onOpenHistory, onOpenMistakes }) {
   return (
     <nav className="top-nav">
@@ -97,7 +105,7 @@ function TopNav({ savedCount, historyCount, mistakesCount, onOpenSaved, onOpenHi
 
 }
 
-// ── Start Screen ────────────────────────────────────────────────────────────────
+// ── Start Screen ────────────────────────────────────────────────
 function StartScreen({ onStart, lastDifficulty, totalStudied, savedCount, mistakesCount, onOpenSaved, onOpenMistakes }) {
   const [picked, setPicked] = React.useState(lastDifficulty || 'easy');
   const levels = [
@@ -161,7 +169,7 @@ function StartScreen({ onStart, lastDifficulty, totalStudied, savedCount, mistak
 
 }
 
-// ── Difficulty Screen ───────────────────────────────────────────────────────────────
+// ── Difficulty Screen ───────────────────────────────────────────
 function DifficultyScreen({ onPick, onBack }) {
   const levels = [
   { id: 'easy', rank: 'I', name: '易しい', em: 'Easy', desc: '基礎単語 100語から出題', meter: 1 },
@@ -196,7 +204,7 @@ function DifficultyScreen({ onPick, onBack }) {
 
 }
 
-// ── Quiz Screen ───────────────────────────────────────────────────────────────────────
+// ── Quiz Screen ─────────────────────────────────────────────────
 function QuizScreen({ questions, difficulty, onFinish, onQuit, savedSet, toggleSaved, mode }) {
   const [idx, setIdx] = React.useState(0);
   const [answers, setAnswers] = React.useState([]);
@@ -282,6 +290,15 @@ function QuizScreen({ questions, difficulty, onFinish, onQuit, savedSet, toggleS
         </button>
         <div className="word-prompt">次の語の意味は？</div>
         <div className="word-display">{q.word}</div>
+        {q.direction === 'en-to-jp' && (
+          <button
+            className="speak-btn"
+            onClick={() => speakEnglish(q.word)}
+            title="発音を聞く"
+            aria-label="発音を聞く">
+            🔊
+          </button>
+        )}
         <div className="word-pos">— choose the closest meaning</div>
       </div>
 
@@ -338,7 +355,7 @@ function QuizScreen({ questions, difficulty, onFinish, onQuit, savedSet, toggleS
 
 }
 
-// ── Result Screen ──────────────────────────────────────────────────────────────────────
+// ── Result Screen ───────────────────────────────────────────────
 function PercentRing({ pct }) {
   const r = 14,c = 2 * Math.PI * r;
   const dash = pct / 100 * c;
@@ -477,7 +494,7 @@ function HistoryGrid({ history }) {
 
 }
 
-// ── Mistakes Sheet ──────────────────────────────────────────────────────────────────
+// ── Mistakes Sheet ──────────────────────────────────────────────
 function MistakesSheet({ mistakes, onClose, onRemove, onClearAll, onPractice }) {
   const entries = Object.entries(mistakes)
     .map(([word, m]) => ({ word, ...m }))
@@ -555,7 +572,7 @@ function MistakesSheet({ mistakes, onClose, onRemove, onClearAll, onPractice }) 
   );
 }
 
-// ── Saved Words Modal ────────────────────────────────────────────────────────────────────
+// ── Saved Words Modal ───────────────────────────────────────────
 function SavedSheet({ savedSet, toggleSaved, onClose, onPractice }) {
   const words = [...savedSet].map(wordById).filter(Boolean);
   return (
@@ -610,7 +627,7 @@ function SavedSheet({ savedSet, toggleSaved, onClose, onPractice }) {
 
 }
 
-// ── History Sheet ───────────────────────────────────────────────────────────────────────
+// ── History Sheet ───────────────────────────────────────────────
 function HistorySheet({ history, onClose }) {
   return (
     <div className="screen-enter" style={{

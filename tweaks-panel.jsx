@@ -34,8 +34,8 @@
 //                        options={['#D97757', '#2A6FDB', '#1F8A5B', '#7A5AE0']}
 //                        onChange={(v) => setTweak('primaryColor', v)} />
 //           <TweakColor  label="Palette" value={t.palette}
-//                        options={[['#D97757', '#29261b', '#f6f4ef'],
-//                                  ['#475569', '#0f172a', '#f1f5f9']]}
+//                        options={[["#D97757", "#29261b", "#f6f4ef"],
+//                                  ["#475569", "#0f172a", "#f1f5f9"]]}
 //                        onChange={(v) => setTweak('palette', v)} />
 //           <TweakToggle label="Dark mode" value={t.dark}
 //                        onChange={(v) => setTweak('dark', v)} />
@@ -156,7 +156,7 @@ const __TWEAKS_STYLE = `
     filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
 `;
 
-// ── useTweaks ───────────────────────────────────────────────────────────────────────────────────
+// ── useTweaks ───────────────────────────────────────────────────────────────
 // Single source of truth for tweak values. setTweak persists via the host
 // (__edit_mode_set_keys → host rewrites the EDITMODE block on disk).
 function useTweaks(defaults) {
@@ -176,7 +176,7 @@ function useTweaks(defaults) {
   return [values, setTweak];
 }
 
-// ── TweaksPanel ─────────────────────────────────────────────────────────────────────────────────
+// ── TweaksPanel ─────────────────────────────────────────────────────────────
 // Floating shell. Registers the protocol listener BEFORE announcing
 // availability — if the announce ran first, the host's activate could land
 // before our handler exists and the toolbar toggle would silently no-op.
@@ -273,7 +273,7 @@ function TweaksPanel({ title = 'Tweaks', children }) {
   );
 }
 
-// ── Layout helpers ──────────────────────────────────────────────────────────────────────
+// ── Layout helpers ──────────────────────────────────────────────────────────
 
 function TweakSection({ label, children }) {
   return (
@@ -296,7 +296,7 @@ function TweakRow({ label, value, children, inline = false }) {
   );
 }
 
-// ── Controls ────────────────────────────────────────────────────────────────────────────
+// ── Controls ────────────────────────────────────────────────────────────────
 
 function TweakSlider({ label, value, min = 0, max = 100, step = 1, unit = '', onChange }) {
   return (
