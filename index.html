@@ -76,6 +76,7 @@ html, body {
 .serif { font-family: 'Instrument Serif', 'Noto Serif JP', Georgia, serif; font-weight: 400; }
 .mono { font-family: ui-monospace, 'SF Mono', Menlo, monospace; }
 
+/* Subtle paper grain on body */
 body::before {
   content: '';
   position: fixed; inset: 0;
@@ -90,6 +91,7 @@ body::before {
 
 #root { position: relative; z-index: 1; min-height: 100vh; }
 
+/* App shell */
 .app-shell {
   max-width: 720px;
   margin: 0 auto;
@@ -99,6 +101,7 @@ body::before {
   flex-direction: column;
 }
 
+/* Top nav */
 .top-nav {
   display: flex;
   align-items: center;
@@ -141,6 +144,7 @@ body::before {
 .nav-pill:hover { color: var(--ink); border-color: var(--line-strong); }
 .nav-pill .pill-num { font-weight: 700; color: var(--accent); }
 
+/* Buttons */
 .btn {
   font-family: inherit;
   border: none;
@@ -176,6 +180,7 @@ body::before {
 
 .btn-lg { padding: 18px 36px; font-size: 16px; border-radius: 16px; }
 
+/* Cards */
 .paper-card {
   background: var(--paper);
   border-radius: 24px;
@@ -183,6 +188,7 @@ body::before {
   box-shadow: var(--shadow-md);
 }
 
+/* Difficulty pill */
 .diff-pill {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 5px 11px 5px 9px;
@@ -202,6 +208,7 @@ body::before {
 .diff-pill.normal { color: var(--normal); }
 .diff-pill.hard { color: var(--hard); }
 
+/* Quiz screen specific */
 .quiz-stage { flex: 1; display: flex; flex-direction: column; }
 
 .quiz-progress-row {
@@ -248,6 +255,7 @@ body::before {
   font-weight: 700;
 }
 
+/* Word card */
 .word-card {
   padding: 56px 32px 44px;
   text-align: center;
@@ -273,6 +281,19 @@ body::before {
 }
 .word-card .star-btn:hover { border-color: var(--accent); color: var(--accent); }
 .word-card .star-btn.active { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+
+.word-card .speak-btn {
+  margin: 6px auto 0;
+  display: grid; place-items: center;
+  background: transparent; border: 1px solid var(--line);
+  width: 40px; height: 40px; border-radius: 12px;
+  font-size: 18px; line-height: 1;
+  cursor: pointer; color: var(--ink-mute);
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.word-card .speak-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.word-card .speak-btn:active { transform: scale(0.96); }
 
 .word-display {
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -302,6 +323,7 @@ body::before {
   font-weight: 500;
 }
 
+/* Choices */
 .choices-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -390,6 +412,7 @@ body::before {
 
 .choice.dimmed { opacity: 0.5; }
 
+/* Feedback bar */
 .feedback-bar {
   margin-top: 18px;
   padding: 16px 20px;
@@ -429,6 +452,7 @@ body::before {
   font-style: italic;
 }
 
+/* Animations */
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
@@ -458,6 +482,7 @@ body::before {
 [data-anim="low"] .anim-fade { animation: none; }
 [data-anim="low"] * { transition-duration: 0.08s !important; }
 
+/* ── Start screen ── */
 .start-hero {
   flex: 1;
   display: flex; flex-direction: column;
@@ -539,6 +564,7 @@ body::before {
 .start-stat.clickable:hover .start-stat-num { color: var(--accent); }
 .start-stat.clickable .start-stat-num { transition: color 0.15s; }
 
+/* Mistake row */
 .mistake-row {
   background: var(--paper);
   border: 1px solid var(--line);
@@ -586,6 +612,7 @@ body::before {
   display: flex; gap: 12px; flex-wrap: wrap;
 }
 
+/* Difficulty picker on start screen */
 .diff-picker-label {
   font-size: 11px;
   color: var(--ink-mute);
@@ -672,6 +699,7 @@ body::before {
   letter-spacing: 0;
 }
 
+/* Difficulty cards */
 .diff-section-title {
   font-family: 'Instrument Serif', serif;
   font-size: 36px;
@@ -759,6 +787,7 @@ body::before {
   transform: translateX(4px);
 }
 
+/* Result screen */
 .result-hero {
   text-align: center;
   padding: 40px 24px 32px;
@@ -906,6 +935,7 @@ body::before {
   font-size: 17px;
 }
 
+/* History tab in result */
 .history-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -932,6 +962,7 @@ body::before {
   flex-wrap: wrap;
 }
 
+/* Saved words tab */
 .saved-list {
   display: flex; flex-direction: column; gap: 6px;
 }
@@ -958,6 +989,7 @@ body::before {
   padding: 4px;
 }
 
+/* Page transitions */
 .screen-enter {
   animation: slideUp 0.45s cubic-bezier(.2,.8,.2,1);
 }
@@ -969,8 +1001,10 @@ body::before {
 }
 </style>
 
+<!-- Vocabulary data -->
 <script src="data.js"></script>
 
+<!-- React + Babel -->
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
