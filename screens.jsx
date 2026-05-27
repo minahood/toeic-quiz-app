@@ -289,16 +289,22 @@ function QuizScreen({ questions, difficulty, onFinish, onQuit, savedSet, toggleS
           <span style={{ fontSize: 16, lineHeight: 1 }}>{isStarred ? '★' : '☆'}</span>
         </button>
         <div className="word-prompt">次の語の意味は？</div>
-        <div className="word-display">{q.word}</div>
-        {q.direction === 'en-to-jp' && (
-          <button
-            className="speak-btn"
-            onClick={() => speakEnglish(q.word)}
-            title="発音を聞く"
-            aria-label="発音を聞く">
-            🔊
-          </button>
-        )}
+        <div className="word-display-wrap">
+          <div className="word-display">{q.word}</div>
+          {q.direction === 'en-to-jp' && (
+            <button
+              className="speak-btn"
+              onClick={() => speakEnglish(q.word)}
+              title="発音を聞く"
+              aria-label="発音を聞く">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" />
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+              </svg>
+            </button>
+          )}
+        </div>
         <div className="word-pos">— choose the closest meaning</div>
       </div>
 
