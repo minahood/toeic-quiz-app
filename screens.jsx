@@ -5,6 +5,14 @@ const DIFFICULTY_LABEL = { easy: '易しい', normal: '普通', hard: '難しい
 const DIFFICULTY_LABEL_EN = { easy: 'Easy', normal: 'Normal', hard: 'Hard' };
 
 // ── Utilities ──────────────────────────────────────────────────
+function speakEnglish(text) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'en-US';
+  utter.rate = 0.95;
+  window.speechSynthesis.speak(utter);
+}
 function shuffle(arr) {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -282,6 +290,15 @@ function QuizScreen({ questions, difficulty, onFinish, onQuit, savedSet, toggleS
         </button>
         <div className="word-prompt">次の語の意味は？</div>
         <div className="word-display">{q.word}</div>
+        {q.direction === 'en-to-jp' && (
+          <button
+            className="speak-btn"
+            onClick={() => speakEnglish(q.word)}
+            title="発音を聞く"
+            aria-label="発音を聞く">
+            🔊
+          </button>
+        )}
         <div className="word-pos">— choose the closest meaning</div>
       </div>
 

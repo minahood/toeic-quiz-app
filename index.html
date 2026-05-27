@@ -282,6 +282,19 @@ body::before {
 .word-card .star-btn:hover { border-color: var(--accent); color: var(--accent); }
 .word-card .star-btn.active { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
 
+.word-card .speak-btn {
+  margin: 6px auto 0;
+  display: grid; place-items: center;
+  background: transparent; border: 1px solid var(--line);
+  width: 40px; height: 40px; border-radius: 12px;
+  font-size: 18px; line-height: 1;
+  cursor: pointer; color: var(--ink-mute);
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.word-card .speak-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.word-card .speak-btn:active { transform: scale(0.96); }
+
 .word-display {
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   font-size: clamp(40px, 7vw, 64px);
