@@ -80,9 +80,10 @@ function App() {
 
   const startQuiz = (difficulty, opts = {}) => {
     const count = tweaks.questionCount || 10;
-    const questions = buildQuestions(difficulty, count, opts.onlyWords);
+    const direction = opts.direction || 'en-to-jp';
+    const questions = buildQuestions(difficulty, count, opts.onlyWords, direction);
     if (!questions.length) return;
-    setQuizState({ questions, difficulty, mode: opts.mode || 'normal' });
+    setQuizState({ questions, difficulty, mode: opts.mode || 'normal', direction });
     setLastDifficulty(difficulty);
     writeLS('toeic-last-diff', difficulty);
     setScreen('quiz');
@@ -126,6 +127,8 @@ function App() {
           next[a.word] = {
             correct: a.correct,
             selected: a.selected,
+            meaning: a.meaning,
+            direction: a.direction,
             difficulty: a.difficulty,
             ts: Date.now(),
             count: (existing?.count || 0) + 1,
@@ -146,6 +149,7 @@ function App() {
 
   const handlePracticeSaved = (words) => {
     setShowSaved(false);
+    // Use the most common difficulty among saved words for the badge
     const diffs = words.map(w => wordById(w)?.difficulty).filter(Boolean);
     const diff = diffs[0] || 'normal';
     startQuiz(diff, { onlyWords: words, mode: 'saved' });
@@ -171,7 +175,7 @@ function App() {
 
       {screen === 'start' && (
         <StartScreen
-          onStart={(diff) => startQuiz(diff)}
+          onStart={(diff, dir) => startQuiz(diff, { direction: dir })}
           lastDifficulty={lastDifficulty}
           totalStudied={totalStudied}
           savedCount={saved.size}
@@ -197,7 +201,7 @@ function App() {
           history={history}
           savedSet={saved}
           toggleSaved={toggleSaved}
-          onRetry={() => startQuiz(quizState.difficulty)}
+          onRetry={() => startQuiz(quizState.difficulty, { direction: quizState.direction || 'en-to-jp' })}
           onChangeDiff={() => setScreen('start')}
           onReviewMistakes={handleReviewMistakes}
           onHome={() => setScreen('start')}
@@ -228,6 +232,7 @@ function App() {
         />
       )}
 
+      {/* Tweaks panel */}
       <TweaksPanel title="Tweaks">
         <TweakSection label="外観">
           <TweakRadio

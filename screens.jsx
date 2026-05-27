@@ -65,7 +65,7 @@ function buildQuestions(difficulty, count, onlyWords, direction = 'en-to-jp') {
         correct: q.word,
         direction,
         difficulty: q.difficulty,
-        choices: fourWords.map(w => ({ answer: w.word, hint: w.meaning })),
+        choices: fourWords.map(w => ({ display: w.word, hint: w.meaning, value: w.word })),
       };
     }
     return {
@@ -75,7 +75,7 @@ function buildQuestions(difficulty, count, onlyWords, direction = 'en-to-jp') {
       correct: q.meaning,
       direction,
       difficulty: q.difficulty,
-      choices: fourWords.map(w => ({ meaning: w.meaning, english: w.word })),
+      choices: fourWords.map(w => ({ display: w.meaning, hint: w.word, value: w.meaning })),
     };
   });
 }
@@ -108,6 +108,7 @@ function TopNav({ savedCount, historyCount, mistakesCount, onOpenSaved, onOpenHi
 // ── Start Screen ────────────────────────────────────────────────
 function StartScreen({ onStart, lastDifficulty, totalStudied, savedCount, mistakesCount, onOpenSaved, onOpenMistakes }) {
   const [picked, setPicked] = React.useState(lastDifficulty || 'easy');
+  const [direction, setDirection] = React.useState('en-to-jp');
   const levels = [
   { id: 'easy', name: '易しい', em: 'Easy', desc: '基礎単語' },
   { id: 'normal', name: '普通', em: 'Normal', desc: 'ビジネス中級' },
@@ -159,8 +160,18 @@ function StartScreen({ onStart, lastDifficulty, totalStudied, savedCount, mistak
         )}
       </div>
 
+      <div className="diff-picker-label">出題方向</div>
+      <div className="dir-picker">
+        <button className={`dir-pick ${direction === 'en-to-jp' ? 'on' : ''}`} onClick={() => setDirection('en-to-jp')}>
+          英語 → 日本語
+        </button>
+        <button className={`dir-pick ${direction === 'jp-to-en' ? 'on' : ''}`} onClick={() => setDirection('jp-to-en')}>
+          日本語 → 英語
+        </button>
+      </div>
+
       <div className="start-cta">
-        <button className="btn btn-primary btn-lg" onClick={() => onStart(picked)}>
+        <button className="btn btn-primary btn-lg" onClick={() => onStart(picked, direction)}>
           Start
           <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', marginLeft: 4, fontSize: 18 }}>→</span>
         </button>
@@ -216,11 +227,11 @@ function QuizScreen({ questions, difficulty, onFinish, onQuit, savedSet, toggleS
   const score = answers.filter((a) => a.isCorrect).length;
   const isLast = idx === total - 1;
 
-  const handleSelect = (meaning) => {
+  const handleSelect = (val) => {
     if (selected !== null) return;
-    const isCorrect = meaning === q.correct;
-    setSelected(meaning);
-    setAnswers((prev) => [...prev, { word: q.word, correct: q.correct, selected: meaning, isCorrect, difficulty: q.difficulty }]);
+    const isCorrect = val === q.correct;
+    setSelected(val);
+    setAnswers((prev) => [...prev, { word: q.word, meaning: q.meaning, correct: q.correct, selected: val, isCorrect, difficulty: q.difficulty, direction: q.direction }]);
     setStreak((prev) => isCorrect ? prev + 1 : 0);
   };
 
@@ -239,7 +250,7 @@ function QuizScreen({ questions, difficulty, onFinish, onQuit, savedSet, toggleS
     const onKey = (e) => {
       if (selected === null && /^[1-4]$/.test(e.key)) {
         const choice = q.choices[parseInt(e.key, 10) - 1];
-        if (choice) handleSelect(choice.meaning);
+        if (choice) handleSelect(choice.value);
       } else if (selected !== null && (e.key === 'Enter' || e.key === ' ')) {
         e.preventDefault();
         handleNext();
@@ -288,10 +299,10 @@ function QuizScreen({ questions, difficulty, onFinish, onQuit, savedSet, toggleS
           
           <span style={{ fontSize: 16, lineHeight: 1 }}>{isStarred ? '★' : '☆'}</span>
         </button>
-        <div className="word-prompt">次の語の意味は？</div>
+        <div className="word-prompt">{q.direction === 'en-to-jp' ? '次の語の意味は？' : '次の語の英語は？'}</div>
         <div className="word-display-wrap">
           <div className="word-display-inner">
-            <div className="word-display">{q.word}</div>
+            <div className="word-display">{q.direction === 'en-to-jp' ? q.word : q.meaning}</div>
             {q.direction === 'en-to-jp' && (
               <button
                 className="speak-btn"
@@ -306,7 +317,7 @@ function QuizScreen({ questions, difficulty, onFinish, onQuit, savedSet, toggleS
               </button>
             )}
           </div>
-          <div className="word-pos">— choose the closest meaning</div>
+          <div className="word-pos">{q.direction === 'en-to-jp' ? '— choose the closest meaning' : '— choose the English word'}</div>
         </div>
       </div>
 
@@ -316,21 +327,21 @@ function QuizScreen({ questions, difficulty, onFinish, onQuit, savedSet, toggleS
           let cls = 'choice';
           if (selected !== null) {
             cls += ' revealed';
-            if (c.meaning === q.correct) cls += ' correct';else
-            if (c.meaning === selected) cls += ' wrong';else
+            if (c.value === q.correct) cls += ' correct';else
+            if (c.value === selected) cls += ' wrong';else
             cls += ' dimmed';
           }
           return (
             <button
               key={i}
               className={cls}
-              onClick={() => handleSelect(c.meaning)}
+              onClick={() => handleSelect(c.value)}
               disabled={selected !== null}>
-              
+
               <div className="choice-letter">{letter}</div>
               <div className="choice-body">
-                <div className="choice-meaning">{c.meaning}</div>
-                <div className="choice-english">{c.english}</div>
+                <div className="choice-meaning">{c.display}</div>
+                <div className="choice-english">{c.hint}</div>
               </div>
             </button>);
 
@@ -457,7 +468,7 @@ function ReviewList({ rows, savedSet, toggleSaved }) {
             {a.isCorrect ? '✓' : '✕'}
           </div>
           <div className="review-word">
-            <span className="w">{a.word}</span>
+            <span className="w">{a.direction === 'jp-to-en' ? a.meaning : a.word}</span>
             <span className="m">{a.correct}</span>
           </div>
           <div className="review-answers">
@@ -555,7 +566,7 @@ function MistakesSheet({ mistakes, onClose, onRemove, onClearAll, onPractice }) 
                 <div key={e.word} className="mistake-row">
                   <div className="mistake-row-main">
                     <div className="mistake-row-head">
-                      <span className="word-eng">{e.word}</span>
+                      <span className="word-eng">{e.direction === 'jp-to-en' ? (e.meaning || e.word) : e.word}</span>
                       <span className={`diff-pill ${e.difficulty}`} style={{ padding: '2px 7px', fontSize: 10 }}>
                         {DIFFICULTY_LABEL[e.difficulty]}
                       </span>
